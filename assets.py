@@ -2,7 +2,7 @@ import pygame
 import os
 pygame.init()
 # Make sure this points to your asset folder
-screen=pygame.display.set_mode(1, 1)
+screen=pygame.display.set_mode((1, 1))
 bird_images = {}
 color_map = {
     "red": "red_bird.png",
