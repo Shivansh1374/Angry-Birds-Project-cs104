@@ -6,7 +6,6 @@ from utils.bird import Bird
 from utils.block import Block
 
 #defines some basic variables
-
 WIDTH, HEIGHT = 1200, 700
 BLOCK_WIDTH = 60
 WHITE = (255, 255, 255)
