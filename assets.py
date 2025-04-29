@@ -10,7 +10,7 @@ color_map = {
     "blue": "blue_bird.png",
     "black": "black_bird.png"
 }
-background_img = pygame.image.load("assets/background.png").convert()
+background_img = pygame.image.load("assets/background.png")
 for color, filename in color_map.items():
     path="assets/"+filename
     bird_images[color] = pygame.image.load(path).convert_alpha()
