@@ -3,7 +3,7 @@ import pygame
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BG_COLOR = (135, 206, 235)
-
+pygame.init()
 font = pygame.font.SysFont("arial", 32)
 
 def run_menu(screen, clock):
