@@ -5,6 +5,8 @@ from assets import bird_images, background_img
 from utils.bird import Bird
 from utils.block import Block
 
+#defines some basic variables
+
 WIDTH, HEIGHT = 1200, 700
 BLOCK_WIDTH = 60
 WHITE = (255, 255, 255)
@@ -21,12 +23,16 @@ bird_types = ["red", "yellow", "blue", "black"]
 
 font = pygame.font.SysFont("arial", 32)
 
+#sets up the blocks
+
 def setup_blocks(blocks):
     block_list = [random.choice(["wood", "ice", "stone"]) for _ in range(5)]
     for i in range(4, -1, -1):
         blocks.append(Block(WIDTH - 75 - BLOCK_WIDTH, HEIGHT - 170 - i * 65, block_list[i], owner=1))
     for i in range(4, -1, -1):
         blocks.append(Block(75, HEIGHT - 120 - i * 65, block_list[i], owner=0))
+
+#draws a preditive launch arc
 
 def draw_launch_arc(screen, start_pos, velocity):
     x, y = start_pos
@@ -39,6 +45,8 @@ def draw_launch_arc(screen, start_pos, velocity):
         points.append((int(px), int(py)))
     if len(points) > 1:
         pygame.draw.lines(screen, BLACK, False, points, 2)
+
+#main function to run game
 
 def run_game(screen, clock, players):
     current_player = 0
@@ -55,14 +63,17 @@ def run_game(screen, clock, players):
     while running:
         clock.tick(60)
         for event in pygame.event.get():
+            #if tab is closed
             if event.type == pygame.QUIT:
                 return "quit"
+            #while game is ongoing
             if winner is None:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     dragging = True
                     current_drag_pos = pygame.mouse.get_pos()
                 if event.type == pygame.MOUSEMOTION and dragging:
                     current_drag_pos = pygame.mouse.get_pos()
+                #launches bird
                 if event.type == pygame.MOUSEBUTTONUP and dragging:
                     dragging = False
                     sling_point = left_sling if current_player == 0 else right_sling
@@ -80,7 +91,7 @@ def run_game(screen, clock, players):
                     birds.append(bird)
                     bird_counts[current_player] += 1
                     current_player = (current_player + 1) % 2
-
+                #to use bird special
                 if event.type == pygame.KEYDOWN and birds:
                     special_birds = birds[-1].use_special(blocks)
                     birds.extend(special_birds)
@@ -103,7 +114,7 @@ def run_game(screen, clock, players):
 
         for block in blocks:
             block.draw(screen)
-
+        #checks colissions and damage
         for bird in birds:
             bird.update()
             bird.draw(screen)
@@ -128,7 +139,7 @@ def run_game(screen, clock, players):
             winner = 1
         if not p1_blocks:
             winner = 0
-
+        #displays winner
         if winner is not None:
             win_text = font.render(f"{players[winner]} Wins!", True, BLACK)
             screen.blit(win_text, (WIDTH // 2 - win_text.get_width() // 2, HEIGHT // 2))
