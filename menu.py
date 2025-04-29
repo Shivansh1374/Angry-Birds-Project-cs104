@@ -1,105 +1,52 @@
 import pygame
-import sys
 
-# Initialize Pygame
-pygame.init()
-
-# Screen settings
-WIDTH, HEIGHT = 800, 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+BG_COLOR = (135, 206, 235)
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Main Menu")
+font = pygame.font.SysFont("arial", 32)
 
-font = pygame.font.Font(None, 36)
-
-def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
-def get_player_names():
-    player1_name = ""
-    player2_name = ""
-    
-    input_active1 = False
-    input_active2 = False
-
-    input_box1 = pygame.Rect(250, 200, 300, 50)
-    input_box2 = pygame.Rect(250, 300, 300, 50)
-    
-    color_inactive = pygame.Color('lightskyblue3')
-    color_active = pygame.Color('dodgerblue2')
-    color1 = color_inactive
-    color2 = color_inactive
-
-    clock = pygame.time.Clock()
+def run_menu(screen, clock):
+    input_rects = [pygame.Rect(600, 150, 300, 40), pygame.Rect(600, 250, 300, 40)]
+    players = ["", ""]
+    active_input = 0
 
     while True:
-        screen.fill(WHITE)
-        
-        draw_text("Enter Player 1 Name:", font, BLACK, screen, 250, 170)
-        draw_text("Enter Player 2 Name:", font, BLACK, screen, 250, 270)
+        clock.tick(60)
+        screen.fill(BG_COLOR)
+        title = font.render("Enter Player Names", True, BLACK)
+        screen.blit(title, (600 - title.get_width() // 2, 50))
 
-        # Draw input boxes
-        pygame.draw.rect(screen, color1, input_box1, 2)
-        pygame.draw.rect(screen, color2, input_box2, 2)
+        for i in range(2):
+            label = font.render(f"Player {i+1} Name:", True, BLACK)
+            screen.blit(label, (400, 150 + i * 100))
 
-        # Render the current text
-        draw_text(player1_name, font, BLACK, screen, input_box1.x + 5, input_box1.y + 10)
-        draw_text(player2_name, font, BLACK, screen, input_box2.x + 5, input_box2.y + 10)
+            color = (255, 0, 0) if i == active_input else BLACK
+            pygame.draw.rect(screen, color, input_rects[i], 2)
+
+            name_surface = font.render(players[i], True, BLACK)
+            screen.blit(name_surface, (input_rects[i].x + 10, input_rects[i].y + 5))
+
+        if all(players):
+            start_text = font.render("Press ENTER to Start", True, BLACK)
+            screen.blit(start_text, (600 - start_text.get_width() // 2, 400))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # Check if the click is inside input boxes
-                if input_box1.collidepoint(event.pos):
-                    input_active1 = True
-                    input_active2 = False
-                elif input_box2.collidepoint(event.pos):
-                    input_active2 = True
-                    input_active1 = False
-                else:
-                    input_active1 = False
-                    input_active2 = False
-
+                return "quit"
             if event.type == pygame.KEYDOWN:
-                if input_active1:
-                    if event.key == pygame.K_BACKSPACE:
-                        player1_name = player1_name[:-1]
-                    elif event.key == pygame.K_RETURN:
-                        input_active1 = False
-                    else:
-                        player1_name += event.unicode
-
-                elif input_active2:
-                    if event.key == pygame.K_BACKSPACE:
-                        player2_name = player2_name[:-1]
-                    elif event.key == pygame.K_RETURN:
-                        input_active2 = False
-                    else:
-                        player2_name += event.unicode
-
                 if event.key == pygame.K_TAB:
-                    # Switch between input fields using Tab
-                    input_active1, input_active2 = input_active2, input_active1
-
-                if event.key == pygame.K_RETURN:
-                    if player1_name.strip() != "" and player2_name.strip() != "":
-                        return player1_name, player2_name
+                    active_input = (active_input + 1) % 2
+                elif event.key == pygame.K_RETURN:
+                    if all(players):
+                        return players
+                elif event.key == pygame.K_BACKSPACE:
+                    players[active_input] = players[active_input][:-1]
+                else:
+                    players[active_input] += event.unicode
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                for i, rect in enumerate(input_rects):
+                    if rect.collidepoint(pygame.mouse.get_pos()):
+                        active_input = i
 
         pygame.display.update()
-        clock.tick(30)
-
-def main_menu():
-    player1, player2 = get_player_names()
-    print(f"Player 1: {player1}, Player 2: {player2}")
-    return player1, player2
-
-if __name__ == "__main__":
-    main_menu()
