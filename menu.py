@@ -1,11 +1,11 @@
 import pygame
-
+#initialize some colors and fonts
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BG_COLOR = (135, 206, 235)
 pygame.init()
 font = pygame.font.SysFont("arial", 32)
-
+#starts the main menu and gets 2 player names
 def run_menu(screen, clock):
     input_rects = [pygame.Rect(600, 150, 300, 40), pygame.Rect(600, 250, 300, 40)]
     players = ["", ""]
@@ -30,7 +30,7 @@ def run_menu(screen, clock):
         if all(players):
             start_text = font.render("Press ENTER to Start", True, BLACK)
             screen.blit(start_text, (600 - start_text.get_width() // 2, 400))
-
+        #allows you to move to the game if both players are there
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "quit"
