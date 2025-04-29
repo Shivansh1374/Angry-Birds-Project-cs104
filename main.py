@@ -2,7 +2,7 @@ import pygame
 import sys
 from menu import run_menu
 from game import run_game
-
+#main loop of the game. 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1200, 700))
