@@ -27,9 +27,9 @@ font = pygame.font.SysFont("arial", 32)
 def setup_blocks(blocks):
     block_list = [random.choice(["wood", "ice", "stone"]) for _ in range(5)]
     for i in range(4, -1, -1):
-        blocks.append(Block(WIDTH - 75 - BLOCK_WIDTH, HEIGHT - 170 - i * 65, block_list[i], owner=1))
+        blocks.append(Block(WIDTH - 75 - BLOCK_WIDTH, HEIGHT - 150 - i * 65, block_list[i], owner=1))
     for i in range(4, -1, -1):
-        blocks.append(Block(75, HEIGHT - 120 - i * 65, block_list[i], owner=0))
+        blocks.append(Block(75, HEIGHT - 150 - i * 65, block_list[i], owner=0))
 
 #draws a preditive launch arc
 
