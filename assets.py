@@ -1,6 +1,6 @@
 import pygame
 import os
-
+pygame.init()
 # Make sure this points to your asset folder
 
 bird_images = {}
@@ -13,6 +13,5 @@ color_map = {
 background_img = pygame.image.load("assets/background.png").convert()
 for color, filename in color_map.items():
     path="assets/"+filename
-    print(path)
     bird_images[color] = pygame.image.load(path).convert_alpha()
 
