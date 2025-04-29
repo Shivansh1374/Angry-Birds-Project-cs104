@@ -13,7 +13,7 @@ BG_COLOR = (135, 206, 235)
 gravity = 0.3
 
 SLINGSHOT_OFFSET_X = 150
-SLINGSHOT_BASE_Y = HEIGHT - 50
+SLINGSHOT_BASE_Y = HEIGHT - 100
 left_sling = (SLINGSHOT_OFFSET_X + 5, SLINGSHOT_BASE_Y - 100)
 right_sling = (WIDTH - SLINGSHOT_OFFSET_X - 5, SLINGSHOT_BASE_Y - 100)
 
@@ -24,9 +24,9 @@ font = pygame.font.SysFont("arial", 32)
 def setup_blocks(blocks):
     block_list = [random.choice(["wood", "ice", "stone"]) for _ in range(5)]
     for i in range(4, -1, -1):
-        blocks.append(Block(WIDTH - 75 - BLOCK_WIDTH, HEIGHT - 100 - i * 65, block_list[i], owner=1))
+        blocks.append(Block(WIDTH - 75 - BLOCK_WIDTH, HEIGHT - 170 - i * 65, block_list[i], owner=1))
     for i in range(4, -1, -1):
-        blocks.append(Block(75, HEIGHT - 100 - i * 65, block_list[i], owner=0))
+        blocks.append(Block(75, HEIGHT - 120 - i * 65, block_list[i], owner=0))
 
 def draw_launch_arc(screen, start_pos, velocity):
     x, y = start_pos
